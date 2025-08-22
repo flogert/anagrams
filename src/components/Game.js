@@ -20,32 +20,34 @@ export default function Game() {
 
     const attemptFetch = async () => {
       try {
-        const response = await fetch('/api/anagrams');
-        const data = await response.json();
+        // Fetch a random word
+        const randomWordResponse = await fetch('https://random-word-api.vercel.app/api?words=1');
+        if (!randomWordResponse.ok) throw new Error('Failed to fetch random word');
+        const randomWordData = await randomWordResponse.json();
+        const randomWord = randomWordData[0];
 
-        if (data.error) {
-          // If no anagrams found, retry immediately
-          if (data.error.includes('No anagrams') || data.error.includes('No random word')) {
-            return attemptFetch();
-          }
-          throw new Error(data.error);
-        }
+        // Fetch anagrams
+        const uid = '13023';
+        const tokenid = '6KoezMK9X3c1wQKT';
+        const anagramApiUrl = `https://www.stands4.com/services/v2/ana.php?uid=${uid}&tokenid=${tokenid}&term=${randomWord}&format=json`;
         
-        if (!data.word || !Array.isArray(data.anagrams)) {
-           // Invalid structure, retry
-           return attemptFetch();
+        const anagramResponse = await fetch(anagramApiUrl);
+        if (!anagramResponse.ok) throw new Error('Failed to fetch anagrams');
+        
+        const anagramResponseText = await anagramResponse.text();
+        let anagramData = JSON.parse(anagramResponseText);
+
+        if (!anagramData.result || !Array.isArray(anagramData.result) || anagramData.result.length === 0) {
+          return attemptFetch(); // Retry if no anagrams found
         }
 
-        setWord(data.word);
-        setAnagrams(data.anagrams);
+        const anagrams = anagramData.result.map(item => item.anagram.toLowerCase());
+
+        setWord(randomWord.toLowerCase());
+        setAnagrams(anagrams);
         setLoading(false);
       } catch (err) {
-        // If it's a fetch error (network), we might want to show error or retry.
-        // User asked to skip error "that no word is found".
-        // For other errors, we might still want to show them or retry.
-        // Let's retry a few times if it's a network glitch, but for now, 
-        // if it's not the specific "no word" error, we show the error screen.
-        // However, to be robust as requested:
+        console.error(err);
         setError('Failed to load game. Please try again.');
         setLoading(false);
       }
