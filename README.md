@@ -16,7 +16,9 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+The main application logic is located in [src/app/page.js](src/app/page.js), which renders the [Game](src/components/Game.js) component. The API endpoint is handled by the App Router at [src/app/api/anagrams/route.js](src/app/api/anagrams/route.js).
+
+You can start editing the page by modifying `src/app/page.js`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
