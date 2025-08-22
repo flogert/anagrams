@@ -1,0 +1,60 @@
+/* globals.css */
+
+/* Tailwind's base styles (resets and defaults) */
+@tailwind base;
+
+/* Tailwind's component styles (for default Tailwind components like buttons, forms, etc.) */
+@tailwind components;
+
+/* Tailwind's utility classes (for things like margin, padding, etc.) */
+@tailwind utilities;
+
+/* Global Reset for custom styles */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Set a base font family and default font size */
+body {
+  font-family: 'Inter', sans-serif; /* You can use any font you like */
+  font-size: 16px; /* Default font size */
+  background-color: #f9fafb; /* Tailwind's cool gray 50 */
+  color: #1f2937; /* Tailwind's cool gray 800 */
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Additional global styles */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Styling for headers (h1, h2, etc.) */
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  font-weight: 700;
+  color: #1f2937; /* Tailwind's cool gray 800 */
+}
+
+/* Button styles */
+button {
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.3s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.animate-shake {
+  animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
